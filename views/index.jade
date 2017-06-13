@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+block scripts
+  div.
+    <div id="divView">
+      <iframe id="ifrTile" width="100%" height="800"></iframe>
+    </div>
+  script(type='text/javascript').
+    (function () {
+          var iframe = document.getElementById('ifrTile');
+          iframe.src = "#{url}";
+          iframe.onload = function() {
+            var msgJson = {
+              action: "loadReport",
+              accessToken: "#{token}",
+            };
+            var msgTxt = JSON.stringify(msgJson);
+            iframe.contentWindow.postMessage(msgTxt, "*");
+          };
+        }());
+
